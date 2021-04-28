@@ -4,10 +4,8 @@ project concept is to develop software that can be used to plan bike ride trips
 
 feature ideas
  - logging in users
- - creating events
+ - creating rides
  - inviting riders
- - setting a sag person?
- - blocking of schedules (in days)
 
 what is a ride? what goes in the email invite
 
@@ -16,12 +14,15 @@ you are invited for a ride on <start date>
 we plan to do <x> miles w/ <x> stops
 it will/willnot be an overnight trip
 
-if possible, would like to try and design collection of REST microservices
+first, get this running as easiest as possible.
+then look at:
+ - if possible, would like to try and design collection of REST microservices
+ - if possible, rework front-end as react framework?
 
 maybe start by trying to set up oauth2 w/ google ?
 
 data storage tables
 user table
-location table (name, type/brewery/camp/town/gas, hours-open)
-route segments table (links locations) (loc1, loc2, distance)
-ride table (name, 
+ride table 
+rider table (parent-child table of rides and users)
+ridenotes table??

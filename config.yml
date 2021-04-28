@@ -1,5 +1,5 @@
 appname: "rideplan"
-#layout: "main"
+layout: "main"
 charset: "UTF-8"
 template: "template_toolkit"
 
