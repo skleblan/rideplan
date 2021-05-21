@@ -25,4 +25,14 @@ get '/' => sub {
   template('index', { title=>'RidePlan Home' });
 };
 
+get '/dashboard' => sub {
+  my $data = { title => 'Dashboard',
+    rides => [
+      { name => 'Flint Hills Ride' },
+      { name => 'Kevins bday' }
+    ]
+  };
+  template('dashboard', $data);
+};
+
 1;

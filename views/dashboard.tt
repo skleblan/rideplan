@@ -1,0 +1,11 @@
+<h1><% title %></h1>
+This app can be used to create and coordinate cycling rides between groups of people
+
+<h3>Rides</h3>
+<% IF rides %>
+<ul>
+<% FOREACH ride IN rides %>
+<li><% ride.name %></li>
+<% END %>
+</ul>
+<% END %>
