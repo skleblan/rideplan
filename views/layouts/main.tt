@@ -1,8 +1,14 @@
 <html>
 	<head>
-		<title><% title %></title>
+		<title><% title %> - RidePlan</title>
 	</head>
 	<body>
 		<% content %>
+		<% IF footlinks %>
+		<br>
+		<% FOREACH lnk IN footlinks %>
+		<a href="<% lnk.link %>"><% lnk.name %></a>
+		<% END %>
+		<% END %>
 	</body>
 </html>

@@ -21,8 +21,13 @@ use warnings;
 package rideplan;
 use Dancer2;
 
+my $footlinks = [
+  { name => "Home", link => uri_for('/') },
+  { name => "Dashboard", link => uri_for('/dashboard') }
+];
+
 get '/' => sub {
-  template('index', { title=>'RidePlan Home' });
+  template('index', { title=>'RidePlan Home', footlinks => $footlinks });
 };
 
 get '/dashboard' => sub {
@@ -30,7 +35,8 @@ get '/dashboard' => sub {
     rides => [
       { name => 'Flint Hills Ride' },
       { name => 'Kevins bday' }
-    ]
+    ],
+    footlinks => $footlinks
   };
   template('dashboard', $data);
 };
