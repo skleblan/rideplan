@@ -21,20 +21,23 @@ use warnings;
 package rideplan;
 use Dancer2;
 
-my $footlinks = [
-  { name => "Home", link => uri_for('/') },
-  { name => "Dashboard", link => uri_for('/dashboard') },
-  { name => "Login", link=>uri_for('/templogin') },
-  { name => "Logout", link=>uri_for('/templogout') }
+sub getfootlinks {
+  my $footlinks = [
+    { name => "Home", link => uri_for('/') },
+    { name => "Dashboard", link => uri_for('/dashboard') },
+    { name => "Login", link=>uri_for('/templogin') },
+    { name => "Logout", link=>uri_for('/templogout') }
 
-];
+  ];
+  return $footlinks;
+}
 
 get '/' => sub {
-  template('index', { title=>'RidePlan Home', footlinks => $footlinks });
+  template('index', { title=>'RidePlan Home', footlinks => getfootlinks() });
 };
 
 get '/templogin' => sub {
-  template('templogin', { title => 'Login', loginurl => uri_for('/templogin'), footlinks => $footlinks } );
+  template('templogin', { title => 'Login', loginurl => uri_for('/templogin'), footlinks => getfootlinks() } );
 };
 
 post '/templogin' => sub {
@@ -42,7 +45,7 @@ post '/templogin' => sub {
   redirect uri_for('/dashboard');
 };
 
-post '/templogout' => sub {
+get '/templogout' => sub {
   app->destroy_session;
   redirect uri_for('/');
 };
@@ -53,9 +56,12 @@ get '/dashboard' => sub {
       { name => 'Flint Hills Ride' },
       { name => 'Kevins bday' }
     ],
-    username => session('username'),
-    footlinks => $footlinks
+    footlinks => getfootlinks()
   };
+  if(session('username'))
+  {
+    $data->{ username } = session('username');
+  }
   template('dashboard', $data);
 };
 

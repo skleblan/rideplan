@@ -2,5 +2,5 @@
 <form action="<% loginurl %>" method="post">
 <label for="usernametxtbx">Username</label>
 <input type="text" id="usernametxtbx" name="username"/>
-<input type="Submit">Login</input>
+<input type="Submit"/>
 </form>
