@@ -3,6 +3,9 @@
 		<title><% title %> - RidePlan</title>
 	</head>
 	<body>
+		<% IF username %>
+		<h3>Username: <% username %></h3>
+		<% END %>
 		<% content %>
 		<% IF footlinks %>
 		<br>

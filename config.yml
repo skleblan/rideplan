@@ -2,6 +2,7 @@ appname: "rideplan"
 layout: "main"
 charset: "UTF-8"
 template: "template_toolkit"
+#session: "simple" #default. in memory
 
 engines:
   template:
