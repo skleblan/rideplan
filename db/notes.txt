@@ -1,0 +1,28 @@
+run "sqlite3 -init schema.sql"
+or open sqlite3 and use ".read FILE" command to execute sql statements
+
+sqlite3 does not support multiple "value" clauses in an insert statement
+
+i think sqlite3 does not support "auto_increment", but not sure
+
+ride table
+-id
+-name
+-start timestamp
+-end timestamp
+-miles
+-regional location
+
+user table
+-id
+-name
+
+rider table
+-id
+-ride id
+-user id
+
+ridenotes table
+-id
+-ride id
+-note
