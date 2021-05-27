@@ -1,0 +1,13 @@
+<h1><% title %> - RidePlan</h1>
+<form action="/ride/new" method="post">
+<label for="nametxtbox">Name</label>
+<input type="text" name="name" id="nametxtbox" />
+<br>
+<label for="locationtxtbox">Location</label>
+<input type="text" name="location" id="locationtxtbox" />
+<br>
+<label for="milestxtbox">Miles</label>
+<input type="text" name="miles" id="milestxtbox" />
+<br>
+<input type="submit" />
+</form>

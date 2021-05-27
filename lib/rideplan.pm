@@ -65,4 +65,14 @@ get '/dashboard' => sub {
   template('dashboard', $data);
 };
 
+get '/ride/new' => sub {
+  template('newride', { title => 'Create New Ride', footlinks => getfootlinks() });
+};
+
+post '/ride/new' => sub {
+  my $name = body_parameters->get("name");
+  my $loc = body_parameters->get("location");
+  my $miles = body_parameters->get("miles");
+};
+
 1;
