@@ -66,4 +66,36 @@ sub get_ride_data
   return $retval;
 }
 
+sub _get_new_ride_id
+{
+  my $dbh = shift;
+  my $sth = $dbh->prepare("select max(id) as lastid from ride")
+    or croak $dbh->errstr;
+  $sth->execute or croak $sth->errstr;
+  my $row = $sth->fetchrow_hashref or croak $sth->errstr;
+  my $keyct = scalar(keys %$row);
+  #carp "returned $keyct cols\n";
+  #carp join ",", keys %$row;
+  #carp "\n";
+  my $max = $row->{lastid};
+  #carp "max id for ride is $max\n";
+  return 1 + $max;
+}
+
+sub create_ride
+{
+  my $self=shift;
+  my ($name, $loc, $miles, $start, $end) = @_;
+  croak "at least one missing: name, loc, miles\n" 
+      unless ($name && $loc && $miles);
+  croak "not initialized" unless $self->is_initialized;
+  my $newid = _get_new_ride_id($self->handle);
+  #carp "newid for ride is $newid\n";
+  my $sql = "insert into ride (id, name, regionloc, miles, start, end) values (?, ?, ?, ?, ?, ?)";
+
+  my $sth = $self->handle->prepare($sql) or croak $self->handle->errstr;
+
+  $sth->execute($newid, $name, $loc, $miles, $start, $end) or croak $sth->errstr;
+}
+
 1;
