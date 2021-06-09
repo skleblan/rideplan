@@ -20,6 +20,7 @@ use warnings;
 
 package db;
 use Moo;
+use Dancer2;
 
 has is_initialized => ( is => 'rw' );
 has dbd_type => ( is => 'rw' );
@@ -45,6 +46,7 @@ sub init
   my $dbh = DBI->connect("dbi:SQLite:dbname=$filepath", "", "") or croak $DBI::errstr;
   $self->handle($dbh);
   $self->is_initialized(1);
+  debug "database handle initialized";
 }
 
 sub get_ride_data

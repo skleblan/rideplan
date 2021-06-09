@@ -20,11 +20,19 @@ use warnings;
 
 package rideplan;
 use Dancer2;
+use db;
+
+my $db = db->new;
+
+hook before => sub {
+  die "Missing SQLITE_DB env var" unless $ENV{'SQLITE_DB'};
+};
 
 sub getfootlinks {
   my $footlinks = [
     { name => "Home", link => uri_for('/') },
     { name => "Dashboard", link => uri_for('/dashboard') },
+    { name => "Create New Ride", link => uri_for('/ride/new') },
     { name => "Login", link=>uri_for('/templogin') },
     { name => "Logout", link=>uri_for('/templogout') }
 
@@ -51,11 +59,10 @@ get '/templogout' => sub {
 };
 
 get '/dashboard' => sub {
+  $db->init("SQLite", $ENV{'SQLITE_DB'});
+
   my $data = { title => 'Dashboard',
-    rides => [
-      { name => 'Flint Hills Ride' },
-      { name => 'Kevins bday' }
-    ],
+    rides => $db->get_ride_data,
     footlinks => getfootlinks()
   };
   if(session('username'))
@@ -73,6 +80,10 @@ post '/ride/new' => sub {
   my $name = body_parameters->get("name");
   my $loc = body_parameters->get("location");
   my $miles = body_parameters->get("miles");
+
+  $db->init("SQLite", $ENV{'SQLITE_DB'});
+  $db->create_ride($name, $loc, $miles);
+  redirect uri_for('/dashboard');
 };
 
 1;
