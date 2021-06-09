@@ -60,9 +60,14 @@ get '/templogout' => sub {
 
 get '/dashboard' => sub {
   $db->init("SQLite", $ENV{'SQLITE_DB'});
+  my $rides = $db->get_ride_data;
+  foreach my $r (@$rides)
+  {
+    $r->{url} = uri_for('/ride/'.$r->{id});
+  }
 
   my $data = { title => 'Dashboard',
-    rides => $db->get_ride_data,
+    rides => $rides,
     footlinks => getfootlinks()
   };
   if(session('username'))
@@ -70,6 +75,19 @@ get '/dashboard' => sub {
     $data->{ username } = session('username');
   }
   template('dashboard', $data);
+};
+
+get '/ride/:id' => sub {
+  my $id = route_parameters->get('id');
+  $db->init("SQLite", $ENV{'SQLITE_DB'});
+  my $ridearray = $db->get_ride_data($id);
+  if(not scalar(@$ridearray))
+  {
+    send_error("Not found", 404);
+  }
+  my $ride = $ridearray->[0];
+
+  template('viewride', { title => $ride->{name}, footlinks => getfootlinks(), ride => $ride });
 };
 
 get '/ride/new' => sub {

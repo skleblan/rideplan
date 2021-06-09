@@ -5,7 +5,7 @@ This app can be used to create and coordinate cycling rides between groups of pe
 <% IF rides %>
 <ul>
 <% FOREACH ride IN rides %>
-<li><% ride.name %></li>
+<li><a href="<% ride.url %>"><% ride.name %></a></li>
 <% END %>
 </ul>
 <% END %>

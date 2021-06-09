@@ -1,0 +1,8 @@
+<ul>
+<li>Name: <% ride.name %></li>
+<li>Location: <% ride.regionloc %></li>
+<li>Miles: <% ride.miles %></li>
+<li>Start: <% ride.start %></li>
+<li>End: <% ride.end %></li>
+<li>Id: <% ride.id %></li>
+</ul>

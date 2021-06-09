@@ -52,12 +52,28 @@ sub init
 sub get_ride_data
 {
   my $self = shift;
+  my $id = shift;
   croak "not initialized" unless $self->is_initialized;
 
-  my $sql = "select id, name, miles, regionloc from ride";
+  my $sql; 
+  if($id)
+  {
+    $sql = "select * from ride where id = ?";
+  }
+  else
+  {
+    $sql = "select id, name, miles, regionloc from ride";
+  }
 
   my $sth = $self->handle->prepare($sql) or croak $self->handle->errstr;
-  $sth->execute or croak $sth->errstr;
+  if($id)
+  {
+    $sth->execute($id) or croak $sth->errstr;
+  }
+  else
+  {
+    $sth->execute or croak $sth->errstr;
+  }
 
   my $retval = [];
   my $row = {};
