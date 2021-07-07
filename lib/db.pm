@@ -84,6 +84,42 @@ sub get_ride_data
   return $retval;
 }
 
+sub get_all_riders
+{
+  my $self = shift;
+  croak "not initialized" unless $self->is_initialized;
+
+  my $sql = "select * from user";
+  my $sth = $self->handle->prepare($sql) or croak $self->handle->errstr;
+  $sth->execute or croak $sth->errstr;
+  my $retval = [];
+  while(my $row = $sth->fetchrow_hashref)
+  {
+    push @$retval, $row;
+  }
+  return $retval;
+}
+
+sub get_rider_list
+{
+  my $self = shift;
+  my $rideid = shift;
+  croak "not initialized" unless $self->is_initialized;
+
+  my $sql = "select user.* from rider inner join".
+    " user on rider.userid = user.id where ".
+    "rider.rideid = ?";
+
+  my $sth = $self->handle->prepare($sql) or croak $self->handle->errstr;
+  $sth->execute($rideid) or die $sth->errstr;
+  my $retval = [];
+  while(my $hashrow = $sth->fetchrow_hashref)
+  {
+    push @$retval, $hashrow;
+  }
+  return $retval;
+}
+
 sub _get_new_ride_id
 {
   my $dbh = shift;

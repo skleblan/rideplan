@@ -5,4 +5,9 @@
 <li>Start: <% ride.start %></li>
 <li>End: <% ride.end %></li>
 <li>Id: <% ride.id %></li>
+<% IF ride.riderlist %>
+  <% FOREACH rider IN ride.riderlist %>
+    <li> Rider: <% rider.name %></li>
+  <% END %>
+<% END %>
 </ul>

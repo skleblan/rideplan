@@ -81,11 +81,17 @@ get '/ride/:id' => sub {
   my $id = route_parameters->get('id');
   $db->init("SQLite", $ENV{'SQLITE_DB'});
   my $ridearray = $db->get_ride_data($id);
+  my $riders = $db->get_rider_list($id);
   if(not scalar(@$ridearray))
   {
     send_error("Not found", 404);
   }
   my $ride = $ridearray->[0];
+
+  if(@$riders)
+  {
+    $ride->{riderlist} = $riders;
+  }
 
   template('viewride', { title => $ride->{name}, footlinks => getfootlinks(), ride => $ride });
 };
