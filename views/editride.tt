@@ -1,0 +1,13 @@
+<h1><% title %> - RidePlan</h1>
+<form action="/ride/<% ride.id %>/edit" method="post">
+<label for="nametxtbox">Name</label>
+<input type="text" name="name" id="nametxtbox" value="<% ride.name %>" />
+<br>
+<label for="locationtxtbox">Location</label>
+<input type="text" name="location" id="locationtxtbox" value="<% ride.regionloc %>" />
+<br>
+<label for="milestxtbox">Miles</label>
+<input type="text" name="miles" id="milestxtbox" value="<% ride.miles %>"/>
+<br>
+<input type="submit" />
+</form>

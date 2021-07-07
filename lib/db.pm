@@ -152,4 +152,35 @@ sub create_ride
   $sth->execute($newid, $name, $loc, $miles, $start, $end) or croak $sth->errstr;
 }
 
+sub update_ride
+{
+  my $self = shift;
+  my ($id, $name, $loc, $miles, $start, $end) = @_;
+  croak "need an id to update\n" unless $id;
+  croak "at least one missing: name, loc, miles\n" 
+      unless ($name && $loc && $miles);
+  croak "not initialized" unless $self->is_initialized;
+  my $sql;
+  if ($start and $end)
+  {
+    $sql = "update ride set name = ?, regionloc = ?, miles = ?, start = ?, end = ? where id = ?";
+  }
+  else
+  {
+    $sql = "update ride set name = ?, regionloc = ?, miles = ? where id = ?";
+  }
+
+  my $sth = $self->handle->prepare($sql) or croak $self->handle->errstr;
+  
+  if($start and $end)
+  {
+    $sth->execute($name, $loc, $miles, $start, $end, $id) or croak $sth->errstr;
+  }
+  else
+  {
+    $sth->execute($name, $loc, $miles, $id) or croak $sth->errstr;
+  }
+
+}
+
 1;

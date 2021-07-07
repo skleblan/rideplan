@@ -96,8 +96,38 @@ get '/ride/:id' => sub {
   template('viewride', { title => $ride->{name}, footlinks => getfootlinks(), ride => $ride });
 };
 
+get '/ride/:id/edit' => sub {
+  my $id = route_parameters->get('id');
+  $db->init("SQLite", $ENV{'SQLITE_DV'});
+  my $ridearray = $db->get_ride_data($id);
+  my $riders = $db->get_rider_list($id);
+  if(not scalar(@$ridearray))
+  {
+    send_error("Not found", 404);
+  }
+  my $ride = $ridearray->[0];
+
+  if(@$riders)
+  {
+    $ride->{riderlist} = $riders;
+  }
+
+  template('editride', { title => $ride->{name}."(Edit)", footlinks => getfootlinks(), ride => $ride });
+};
+
 get '/ride/new' => sub {
   template('newride', { title => 'Create New Ride', footlinks => getfootlinks() });
+};
+
+post '/ride/:id/edit' => sub {
+  my $id = route_parameters->get("id");
+  my $name = body_parameters->get("name");
+  my $loc = body_parameters->get("location");
+  my $miles = body_parameters->get("miles");
+
+  $db->init("SQLite", $ENV{'SQLITE_DB'});
+  $db->update_ride($id, $name, $loc, $miles);
+  redirect uri_for('/ride/'.$id);
 };
 
 post '/ride/new' => sub {

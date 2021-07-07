@@ -11,3 +11,4 @@
   <% END %>
 <% END %>
 </ul>
+<a href="/ride/<% ride.id %>/edit">Edit</a>
