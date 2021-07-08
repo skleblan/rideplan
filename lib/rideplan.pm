@@ -26,18 +26,40 @@ my $db = db->new;
 
 hook before => sub {
   die "Missing SQLITE_DB env var" unless $ENV{'SQLITE_DB'};
+  if(!session('username'))
+  {
+    if(request->path !~ m{^/$} and
+      request->path !~ m{^/[a-z]*login})
+    {
+      #warning "unauth req".(request->path);
+      #forward '/templogin';
+      redirect uri_for('/templogin');
+      #TODO: preserve original request
+    }
+  }
 };
 
 sub getfootlinks {
-  my $footlinks = [
+  my $anon_links = [
     { name => "Home", link => uri_for('/') },
+    { name => "Login", link=>uri_for('/templogin') }
+    ];
+
+  my $auth_links = [
     { name => "Dashboard", link => uri_for('/dashboard') },
     { name => "Create New Ride", link => uri_for('/ride/new') },
-    { name => "Login", link=>uri_for('/templogin') },
     { name => "Logout", link=>uri_for('/templogout') }
 
   ];
-  return $footlinks;
+
+  if(session('username'))
+  {
+    return $auth_links;
+  }
+  else
+  {
+    return $anon_links;
+  }
 }
 
 get '/' => sub {
