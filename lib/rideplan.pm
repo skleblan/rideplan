@@ -146,9 +146,11 @@ post '/ride/:id/edit' => sub {
   my $name = body_parameters->get("name");
   my $loc = body_parameters->get("location");
   my $miles = body_parameters->get("miles");
+  my $start = body_parameters->get("start");
+  my $end = body_parameters->get("end");
 
   $db->init("SQLite", $ENV{'SQLITE_DB'});
-  $db->update_ride($id, $name, $loc, $miles);
+  $db->update_ride($id, $name, $loc, $miles, $start, $end);
   redirect uri_for('/ride/'.$id);
 };
 
@@ -156,9 +158,11 @@ post '/ride/new' => sub {
   my $name = body_parameters->get("name");
   my $loc = body_parameters->get("location");
   my $miles = body_parameters->get("miles");
+  my $start = body_parameters->get("start");
+  my $end = body_parameters->get("end");
 
   $db->init("SQLite", $ENV{'SQLITE_DB'});
-  $db->create_ride($name, $loc, $miles);
+  $db->create_ride($name, $loc, $miles, $start, $end);
   redirect uri_for('/dashboard');
 };
 

@@ -9,5 +9,11 @@
 <label for="milestxtbox">Miles</label>
 <input type="text" name="miles" id="milestxtbox" />
 <br>
+<label for="startdatepicker">Start</label>
+<input type="date" name="start" id="startdatepicker" />
+<br>
+<label for="enddatepicker">End</label>
+<input type="date" name="end" id="enddatepicker" />
+<br>
 <input type="submit" />
 </form>
