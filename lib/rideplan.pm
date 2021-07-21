@@ -85,7 +85,7 @@ get '/dashboard' => sub {
   my $rides = $db->get_ride_data;
   foreach my $r (@$rides)
   {
-    $r->{url} = uri_for('/ride/'.$r->{id});
+    $r->{url} = uri_for('/ride/view/'.$r->{id});
   }
 
   my $data = { title => 'Dashboard',
@@ -99,7 +99,7 @@ get '/dashboard' => sub {
   template('dashboard', $data);
 };
 
-get '/ride/:id' => sub {
+get '/ride/view/:id' => sub {
   my $id = route_parameters->get('id');
   $db->init("SQLite", $ENV{'SQLITE_DB'});
   my $ridearray = $db->get_ride_data($id);
@@ -118,7 +118,7 @@ get '/ride/:id' => sub {
   template('viewride', { title => $ride->{name}, footlinks => getfootlinks(), ride => $ride });
 };
 
-get '/ride/:id/edit' => sub {
+get '/ride/edit/:id' => sub {
   my $id = route_parameters->get('id');
   $db->init("SQLite", $ENV{'SQLITE_DV'});
   my $ridearray = $db->get_ride_data($id);
@@ -141,7 +141,7 @@ get '/ride/new' => sub {
   template('newride', { title => 'Create New Ride', footlinks => getfootlinks() });
 };
 
-post '/ride/:id/edit' => sub {
+post '/ride/edit/:id' => sub {
   my $id = route_parameters->get("id");
   my $name = body_parameters->get("name");
   my $loc = body_parameters->get("location");

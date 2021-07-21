@@ -1,5 +1,5 @@
 <h1><% title %> - RidePlan</h1>
-<form action="/ride/<% ride.id %>/edit" method="post">
+<form action="/ride/edit/<% ride.id %>" method="post">
 <label for="nametxtbox">Name</label>
 <input type="text" name="name" id="nametxtbox" value="<% ride.name %>" />
 <br>
