@@ -1,0 +1,8 @@
+<h3>Test Fragment</h3>
+<p>Test Title:<% title %></p>
+
+<% IF ride.riderlist %>
+  <% FOREACH rider IN ride.riderlist %>
+    <p> Rider: <% rider.name %></p>
+  <% END %>
+<% END %>
