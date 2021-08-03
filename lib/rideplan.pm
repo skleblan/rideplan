@@ -154,6 +154,15 @@ post '/ride/edit/:id' => sub {
   redirect uri_for('/ride/'.$id);
 };
 
+post '/ride/link/rider' => sub {
+  my $ride = body_parameters->get("rideid");
+  my $rider = body_parameters->get("riderid");
+
+  #TODO: db call
+
+  redirect uri_for('/ride/'.$ride);
+};
+
 post '/ride/new' => sub {
   my $name = body_parameters->get("name");
   my $loc = body_parameters->get("location");

@@ -1,0 +1,14 @@
+<% IF allusers AND rideid %>
+
+<form action="/ride/link/rider" method="post">
+<input type="hidden" id="hidRideId" name="rideid" value="<% ride.id %>
+<label for="newrider">Rider</label>
+<select id="newrider" name="riderid">
+  <% FOR user IN allusers %>
+  <option value="<% user.id %>"><% user.name %></option>
+  <% END %>
+</select>
+<input type="submit" />
+</form>
+
+<% END %>

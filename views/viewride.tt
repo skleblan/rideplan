@@ -14,4 +14,4 @@
 <a href="/ride/edit/<% ride.id %>">Edit</a>
 
 <br>
-<% INCLUDE testfragment.tt %>
+<% INCLUDE addrider.tt %>
