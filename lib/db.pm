@@ -100,6 +100,21 @@ sub get_all_riders
   return $retval;
 }
 
+sub link_rider
+{
+  my $self = shift;
+  my $rideid = shift;
+  my $userid = shift;
+  croak "not initialized" unless $self->is_initialized;
+
+  #TODO: handle duplicates (insert and/or select)
+  my $sql = "insert into riders (riderid, userid) values (?, ?)";
+
+  my $sth = $self->handle->prepare($sql) or croak $self->handle->errstr;
+  $sth->execute($rideid, $userid) or croak $sth->errstr;
+
+}
+
 sub get_rider_list
 {
   my $self = shift;

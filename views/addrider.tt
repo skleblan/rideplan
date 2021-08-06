@@ -1,4 +1,4 @@
-<% IF allusers AND rideid %>
+<% IF allusers AND ride.id %>
 
 <form action="/ride/link/rider" method="post">
 <input type="hidden" id="hidRideId" name="rideid" value="<% ride.id %>

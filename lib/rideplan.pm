@@ -104,6 +104,7 @@ get '/ride/view/:id' => sub {
   $db->init("SQLite", $ENV{'SQLITE_DB'});
   my $ridearray = $db->get_ride_data($id);
   my $riders = $db->get_rider_list($id);
+  my $allusers = $db->get_all_riders();
   if(not scalar(@$ridearray))
   {
     send_error("Not found", 404);
@@ -115,7 +116,7 @@ get '/ride/view/:id' => sub {
     $ride->{riderlist} = $riders;
   }
 
-  template('viewride', { title => $ride->{name}, footlinks => getfootlinks(), ride => $ride });
+  template('viewride', { title => $ride->{name}, footlinks => getfootlinks(), ride => $ride, allusers => $allusers });
 };
 
 get '/ride/edit/:id' => sub {
@@ -158,7 +159,8 @@ post '/ride/link/rider' => sub {
   my $ride = body_parameters->get("rideid");
   my $rider = body_parameters->get("riderid");
 
-  #TODO: db call
+  $db->init("SQLite", $ENV{'SQLITE_DB'});
+  $db->link_rider($ride, $rider);
 
   redirect uri_for('/ride/'.$ride);
 };
