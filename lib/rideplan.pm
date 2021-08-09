@@ -162,7 +162,7 @@ post '/ride/link/rider' => sub {
   $db->init("SQLite", $ENV{'SQLITE_DB'});
   $db->link_rider($ride, $rider);
 
-  redirect uri_for('/ride/'.$ride);
+  redirect uri_for('/ride/view/'.$ride);
 };
 
 post '/ride/new' => sub {

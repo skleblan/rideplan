@@ -108,7 +108,7 @@ sub link_rider
   croak "not initialized" unless $self->is_initialized;
 
   #TODO: handle duplicates (insert and/or select)
-  my $sql = "insert into riders (riderid, userid) values (?, ?)";
+  my $sql = "insert into rider (rideid, userid) values (?, ?)";
 
   my $sth = $self->handle->prepare($sql) or croak $self->handle->errstr;
   $sth->execute($rideid, $userid) or croak $sth->errstr;
