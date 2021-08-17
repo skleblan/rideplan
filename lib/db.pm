@@ -100,6 +100,21 @@ sub get_all_riders
   return $retval;
 }
 
+sub unlink_rider
+{
+  my $self = shift;
+  my $rideid = shift;
+  my $userid = shift;
+  croak "not initialized" unless $self->is_initialized;
+  debug "in db, calling unlink_rider. ride id $rideid. user id $userid";
+
+  my $sql = "delete from rider where rideid=? and userid=?";
+  debug $sql;
+
+  my $sth = $self->handle->prepare($sql) or croak $self->handle->errstr;
+  $sth->execute($rideid, $userid) or croak $sth->errstr;
+}
+
 sub link_rider
 {
   my $self = shift;
@@ -121,9 +136,13 @@ sub get_rider_list
   my $rideid = shift;
   croak "not initialized" unless $self->is_initialized;
 
+  debug "in db, called get_rider_list w/ ride id $rideid";
+
   my $sql = "select user.* from rider inner join".
     " user on rider.userid = user.id where ".
     "rider.rideid = ?";
+
+  debug $sql;
 
   my $sth = $self->handle->prepare($sql) or croak $self->handle->errstr;
   $sth->execute($rideid) or die $sth->errstr;
@@ -132,6 +151,7 @@ sub get_rider_list
   {
     push @$retval, $hashrow;
   }
+  debug "for linked riders, found @$retval";
   return $retval;
 }
 

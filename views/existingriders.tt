@@ -1,0 +1,10 @@
+<% IF ride.riderlist %>
+<table>
+  <% FOREACH rider IN ride.riderlist %>
+    <tr><td>Rider: <% rider.name %></td>
+        <td><a href="<% rider.removeurl %>">Remove</a>
+        </td>
+    </tr>
+  <% END %>
+  </table>
+<% END %>

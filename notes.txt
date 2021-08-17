@@ -1,3 +1,18 @@
+aug 17, 2021
+
+for requests in chrome, having issue where links need
+to be clicked twice have theory that using multiple
+threads in starman will fix that (as opposed to just
+using the default plack server)
+
+for adding new riders, lynx gives an error about being
+unable to resend the same data for reloading the page.
+ends up working out fine, but the warning is annoying
+
+for removing new riders, lynx doesn't reload the page
+correctly. need to use Ctrl-R
+
+
 apr 28, 2021
 
 project concept is to develop software that can be used to plan bike ride trips

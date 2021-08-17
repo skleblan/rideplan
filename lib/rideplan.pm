@@ -113,6 +113,12 @@ get '/ride/view/:id' => sub {
 
   if(@$riders)
   {
+    my $rurl = "/ride/unlink/rider";
+    foreach my $u (@$riders)
+    {
+      my $d = { rideid => $id, riderid => $u->{id} };
+      $u->{removeurl} = uri_for($rurl, $d);
+    }
     $ride->{riderlist} = $riders;
   }
 
@@ -161,6 +167,16 @@ post '/ride/link/rider' => sub {
 
   $db->init("SQLite", $ENV{'SQLITE_DB'});
   $db->link_rider($ride, $rider);
+
+  redirect uri_for('/ride/view/'.$ride);
+};
+
+get '/ride/unlink/rider' => sub {
+  my $ride = query_parameters->get("rideid");
+  my $rider = query_parameters->get("riderid");
+
+  $db->init("SQLite", $ENV{'SQLITE_DB'});
+  $db->unlink_rider($ride, $rider);
 
   redirect uri_for('/ride/view/'.$ride);
 };
