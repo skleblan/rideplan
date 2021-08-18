@@ -1,0 +1,22 @@
+body {
+  background-color: #ddd;
+  font-family: "Lucida Grande", "Verdana";
+  font-size: 13px;
+  color: #333;
+  margin: 5;
+  margin-bottom: 10;
+}
+
+.userdisplay {
+  color: #fff;
+  background-color: #fa0;
+  padding: 6;
+}
+
+.footlink {
+  color: #fff;
+  background-color: #622;
+  padding: 5;
+  margin-top: 3;
+  display: inline;
+}
