@@ -40,9 +40,19 @@ my $html = "<html><body>Login in using google account \"lisa\"?".
 # https://www.googleapis.com/auth/userinfo.email
 # https://www.googleapis.com/auth/userinfo.profile
 
+get '/' => sub {
+  return "use /1 /2 or /3 for auth, token, and profile respectively";
+};
+
+get '/1' => sub {
+  return "/o/oauth2/v2/auth (state, redirect_uri, client_id, response_type".
+    ", scope, access_type";
+};
+
 get '/o/oauth2/v2/auth' => sub {
   my @params_needed = ('state', 'redirect_uri', 'client_id', 'response_type',
     'scope', 'access_type');
+  debug request->query_parameters;
   for my $param (@params_needed)
   {
     my $temp = query_parameters->get($param);
@@ -52,22 +62,34 @@ get '/o/oauth2/v2/auth' => sub {
     }
     else
     {
-      send_error("Missing params", 400);
+      send_error("Missing param $param", 400);
     }
   }
 
   return $html;
 };
 
+#TODO: not working correctly...
 get '/accept' => sub {
-  redirect session('redirect_uri'), {
+  my $uri = URI->new( session('redirect_uri') );
+  my $params = {
     code => '4/P7q7W91a-oMsCeLvIaQm6bTrgtp7',
     state => session('state')
   };
+  $uri->query_form($params);
+  redirect $uri;
 };
 
 get '/decline' => sub {
   redirect session('redirect_uri'), { error => 'access_denied' };
+};
+
+get '/2' => sub {
+  return "/token body(code, redirect_uri";
+};
+
+get '/3' => sub {
+  send_error("profile access not implemented", 400);
 };
 
 post '/token' => sub {
