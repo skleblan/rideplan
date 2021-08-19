@@ -22,6 +22,33 @@ package rideplan;
 use Dancer2;
 use db;
 
+if($ENV{"GCP_OAUTH_CLIENT_ID"} and $ENV{"GCP_OAUTH_CLIENT_SECRET"})
+{
+  set loginurl => '/login';
+  set client_id => $ENV{"GCP_OAUTH_CLIENT_ID"};
+  set client_secret => $ENV{"GCP_OAUTH_CLIENT_SECRET"};
+}
+else
+{
+  die "no OAuth client info" unless config->{environment} ne "production";
+
+  warning "using insecure login method for app";
+  set loginurl => '/templogin';
+}
+
+if($ENV{"AUTH_SERVER"})
+{
+  set auth_server => $ENV{"AUTH_SERVER"};
+  set token_server => $ENV{"AUTH_SERVER"};
+  set profile_server => $ENV{"AUTH_SERVER"};
+}
+else
+{
+  set auth_server => "https://accounts.google.com";
+  set token_server => "https://oauth2.googleapis.com";
+  set profile_server => "https://www.googleapis.com";
+}
+
 my $db = db->new;
 
 hook before => sub {
@@ -33,7 +60,7 @@ hook before => sub {
     {
       #warning "unauth req".(request->path);
       #forward '/templogin';
-      redirect uri_for('/templogin');
+      redirect uri_for(config->{loginurl});
       #TODO: preserve original request
     }
   }
@@ -42,7 +69,7 @@ hook before => sub {
 sub getfootlinks {
   my $anon_links = [
     { name => "Home", link => uri_for('/') },
-    { name => "Login", link=>uri_for('/templogin') }
+    { name => "Login", link=>uri_for(config->{loginurl}) }
     ];
 
   my $auth_links = [
@@ -73,6 +100,10 @@ get '/templogin' => sub {
 post '/templogin' => sub {
   session 'username' => body_parameters->get('username');
   redirect uri_for('/dashboard');
+};
+
+get '/login' => sub {
+  send_error("Not implemented", 400);
 };
 
 get '/templogout' => sub {
