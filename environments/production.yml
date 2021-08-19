@@ -1,0 +1,11 @@
+log: "warning"
+logger: "console"
+
+# don't consider warnings critical
+warnings: 0
+
+# hide errors
+show_errors: 0
+
+# disable server tokens in production environments
+no_server_tokens: 1

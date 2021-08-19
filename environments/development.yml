@@ -1,0 +1,14 @@
+# console or file
+logger: "console"
+
+# core is the lowest, it shows Dancer2's core log messages as well as yours
+# (debug, info, warning and error)
+log: "core"
+
+# should Dancer2 consider warnings as critical errors?
+warnings: 1
+
+# should Dancer2 show a stacktrace when an 5xx error is caught?
+show_errors: 1
+
+startup_info: 1
