@@ -1,1 +1,1 @@
-curl localhost:3000/accept
+curl -b cookie.tmp localhost:3000/accept
